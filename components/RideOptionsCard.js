@@ -40,15 +40,16 @@ const RideOptionsCard = () => {
 
   return (
     <SafeAreaView style={tw`bg-white flex-grow`}>
-      <View>
+      <View style={tw`m-auto w-full`}>
         <TouchableOpacity
           onPress={() => navigation.navigate("NavigateCard")}
           style={tw`absolute top-3 left-5 z-50 rounded-full p-3 bg-black`}
         >
           <Icon name="chevron-left" type="fontawesome" color="white" />
         </TouchableOpacity>
-        <Text style={tw`text-center py-5 text-xl`}>
-          Select a Ride - {travelTimeInformation?.distance?.text}
+        <Text style={tw`py-5 text-xl text-center ml-10`}>
+          Select a Ride -{" "}
+          {`${(travelTimeInformation?.distance?.value / 1000).toFixed(1)} km`}
         </Text>
       </View>
       <FlatList
@@ -57,21 +58,21 @@ const RideOptionsCard = () => {
         renderItem={({ item: { id, title, multiplier, image }, item }) => (
           <TouchableOpacity
             onPress={() => setSelected(item)}
-            style={tw`flex-row justify-between items-center px-10 ${
+            style={tw`flex-row justify-around items-center px-2 ${
               id === selected?.id && "bg-gray-200"
             }`}
           >
             <Image
-              style={{ width: 85, height: 85, resizeMode: "contain" }}
+              style={{ width: 95, height: 95, resizeMode: "contain" }}
               source={{ uri: image }}
             />
-            <View style={tw`-ml-6`}>
+            <View style={tw`flex-1 mr-auto ml-4`}>
               <Text style={tw`text-lg font-semibold`}>{title}</Text>
-              <Text style={tw`text-black text-sm`}>
+              <Text style={tw`text-gray-500 text-sm`}>
                 {travelTimeInformation?.duration?.text} Travel Time
               </Text>
             </View>
-            <Text style={tw`text-xl`}>
+            <Text style={tw`text-xl font-semibold`}>
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",

@@ -35,7 +35,7 @@ const NavOptions = () => {
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => navigation.navigate("MapScreen")}
-          style={tw`px-4 pb-8 pt-4 bg-gray-200 m-1`}
+          style={tw`px-4 pb-8 pt-4 bg-gray-200 m-1 rounded-lg`}
           disabled={!origin}
         >
           <View style={tw`${!origin && "opacity-20"}`}>

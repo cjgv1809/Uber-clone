@@ -25,6 +25,7 @@ const HomeScreen = () => {
             },
             textInput: {
               fontSize: 18,
+              backgroundColor: "#DDDDDF",
             },
           }}
           fetchDetails={true}
