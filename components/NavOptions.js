@@ -28,38 +28,44 @@ const NavOptions = () => {
   const origin = useSelector(selectOrigin);
 
   return (
-    <FlatList
-      keyExtractor={(item) => item.id}
-      data={data}
-      horizontal
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MapScreen")}
-          style={tw`px-4 pb-8 pt-4 bg-gray-200 m-1 rounded-lg`}
-          disabled={!origin}
-        >
-          <View style={tw`${!origin && "opacity-20"}`}>
-            <Image
-              style={{
-                width: 120,
-                height: 120,
-                resizeMode: "contain",
-              }}
-              source={{ uri: item.image }}
-            />
-            <Text style={tw`mt-2 text-lg text-center font-semibold`}>
-              {item.title}
-            </Text>
-            <Icon
-              style={tw`p-2 mt-4 rounded-full w-10 mx-auto bg-black`}
-              name="arrowright"
-              color="white"
-              type="antdesign"
-            />
-          </View>
-        </TouchableOpacity>
-      )}
-    />
+    <View style={tw`mx-auto my-2 bg-black shadow-md rounded-xl`}>
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={data}
+        horizontal
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(
+                item.screen === "MapScreen" ? "MapScreen" : "EatsScreen"
+              )
+            }
+            style={tw`px-4 pb-8 pt-4 bg-gray-200 m-1 rounded-xl`}
+            disabled={!origin}
+          >
+            <View style={tw`${!origin && "opacity-20"}`}>
+              <Image
+                style={{
+                  width: 120,
+                  height: 120,
+                  resizeMode: "contain",
+                }}
+                source={{ uri: item.image }}
+              />
+              <Text style={tw`mt-2 text-lg text-center font-semibold`}>
+                {item.title}
+              </Text>
+              <Icon
+                style={tw`p-2 mt-4 rounded-full w-10 mx-auto bg-black`}
+                name="arrowright"
+                color="white"
+                type="antdesign"
+              />
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
   );
 };
 
