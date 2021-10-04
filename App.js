@@ -9,6 +9,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MapScreen from "./screens/MapScreen";
 import EatsScreen from "./screens/EatsScreen";
+import RestaurantDetailsScreen from "./screens/RestaurantDetailsScreen";
+import OrderCompletedScreen from "./screens/OrderCompletedScreen";
 
 // SafeArea for the icons
 
@@ -39,6 +41,16 @@ export default function App() {
               <Stack.Screen
                 name="EatsScreen"
                 component={EatsScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="RestaurantDetailsScreen"
+                component={RestaurantDetailsScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="OrderCompletedScreen"
+                component={OrderCompletedScreen}
                 options={{ headerShown: false }}
               />
             </Stack.Navigator>

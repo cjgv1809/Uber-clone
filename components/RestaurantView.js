@@ -40,25 +40,37 @@ export const localRestaurants = [
   },
 ];
 
-const RestaurantView = ({ restaurantData }) => {
-  console.log("RestaurantData", restaurantData);
+const RestaurantView = ({ restaurantData, navigation }) => {
   return (
     <>
       {restaurantData?.map((restaurant, index) => (
         <TouchableOpacity activeOpacity={1} key={index}>
           <View style={tw`bg-white my-3 p-2`}>
             <View>
-              <Image
-                style={{
-                  width: "100%",
-                  height: 200,
-                  resizeMode: "cover",
-                  position: "relative",
-                }}
-                source={{
-                  uri: restaurant.image_url,
-                }}
-              />
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("RestaurantDetailsScreen", {
+                    name: restaurant.name,
+                    image: restaurant.image_url,
+                    price: restaurant.price,
+                    reviews: restaurant.review_count,
+                    rating: restaurant.rating,
+                    categories: restaurant.categories,
+                  })
+                }
+              >
+                <Image
+                  style={{
+                    width: "100%",
+                    height: 200,
+                    resizeMode: "cover",
+                    position: "relative",
+                  }}
+                  source={{
+                    uri: restaurant.image_url,
+                  }}
+                />
+              </TouchableOpacity>
               <TouchableOpacity style={tw`absolute top-3 right-3`}>
                 <MaterialCommunityIcons
                   name="heart-outline"

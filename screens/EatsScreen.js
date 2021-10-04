@@ -8,8 +8,10 @@ import SearchBar from "../components/SearchBar";
 import { YELP_API_KEY } from "@env";
 import { Divider } from "react-native-elements";
 import BottomTabs from "../components/BottomTabs";
+import { useNavigation } from "@react-navigation/core";
 
 const EatsScreen = () => {
+  const navigation = useNavigation();
   const [restaurantData, setRestaurantData] = useState([]);
   const [city, setCity] = useState("San Francisco");
   const [activeTab, setActiveTab] = useState("Delivery");
@@ -46,7 +48,10 @@ const EatsScreen = () => {
       </View>
       <Categories />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <RestaurantView restaurantData={restaurantData} />
+        <RestaurantView
+          restaurantData={restaurantData}
+          navigation={navigation}
+        />
       </ScrollView>
       <Divider width={1} />
       <BottomTabs />
