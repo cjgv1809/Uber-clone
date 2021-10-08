@@ -6,7 +6,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useDispatch, useSelector } from "react-redux";
 import { selectItems, setAddItemToCart } from "../slices/cartSlice";
 
-const MenuItem = ({ restaurantName, foods, hideCheckbox, marginLeft }) => {
+const MenuItem = ({ restaurantName, foods, hideCheckbox, marginRight }) => {
   const dispatch = useDispatch();
   const selectItem = (item, checkboxValue) =>
     dispatch(
@@ -22,7 +22,7 @@ const MenuItem = ({ restaurantName, foods, hideCheckbox, marginLeft }) => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {foods.map((food, index) => (
+      {foods?.map((food, index) => (
         <View key={index}>
           <View style={tw`flex-row justify-between items-center m-5`}>
             {!hideCheckbox ? (
@@ -49,7 +49,7 @@ const MenuItem = ({ restaurantName, foods, hideCheckbox, marginLeft }) => {
                   height: 80,
                   borderRadius: 8,
                   resizeMode: "cover",
-                  marginLeft: marginLeft ? marginLeft : 0,
+                  marginRight: marginRight ? marginRight : 0,
                 }}
               />
             </View>

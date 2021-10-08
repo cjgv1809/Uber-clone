@@ -28,7 +28,6 @@ const SearchBar = ({ cityHandler }) => {
             borderRadius: 50,
             flexDirection: "row",
             alignItems: "center",
-            marginRight: 10,
           },
         }}
         renderLeftButton={() => (

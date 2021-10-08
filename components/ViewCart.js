@@ -6,9 +6,11 @@ import { selectItems, selectRestaurantName } from "../slices/cartSlice";
 import OrderItem from "./OrderItem";
 import db from "../firebase";
 import firebase from "firebase";
+import LottieView from "lottie-react-native";
 
 const ViewCart = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const items = useSelector(selectItems);
   const restName = useSelector(selectRestaurantName);
   const total = items
@@ -20,13 +22,20 @@ const ViewCart = ({ navigation }) => {
   });
 
   const addOrderToFirebase = () => {
-    db.collection("orders").add({
-      items: items,
-      restaurantName: restName,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    setModalVisible(false);
-    navigation.navigate("OrderCompletedScreen");
+    setLoading(true);
+    db.collection("orders")
+      .add({
+        items: items,
+        restaurantName: restName,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        setTimeout(() => {
+          setLoading(false);
+          navigation.navigate("OrderCompletedScreen");
+        }, 2500);
+      })
+      .catch((error) => console.log(error));
   };
 
   const checkoutModalContent = () => {
@@ -45,7 +54,10 @@ const ViewCart = ({ navigation }) => {
             <View style={styles.checkoutButtonContainer}>
               <TouchableOpacity
                 style={styles.checkoutButton}
-                onPress={() => addOrderToFirebase()}
+                onPress={() => {
+                  addOrderToFirebase();
+                  setModalVisible(false);
+                }}
               >
                 <Text style={styles.checkoutButtonText}>Checkout</Text>
                 <Text style={styles.checkoutButtonText}>
@@ -82,6 +94,20 @@ const ViewCart = ({ navigation }) => {
               <Text style={tw`text-white text-lg`}>{totalUSD}</Text>
             </TouchableOpacity>
           </View>
+        </View>
+      ) : (
+        <></>
+      )}
+      {loading ? (
+        <View
+          style={tw`bg-black absolute items-center justify-center w-full h-full`}
+        >
+          <LottieView
+            style={{ height: 200 }}
+            source={require("../assets/animations/scanner.json")}
+            autoPlay
+            speed={3}
+          />
         </View>
       ) : (
         <></>
