@@ -5,7 +5,7 @@ import tw from "tailwind-react-native-classnames";
 import { selectItems, selectRestaurantName } from "../slices/cartSlice";
 import OrderItem from "./OrderItem";
 import db from "../firebase";
-import firebase from "firebase";
+import { serverTimestamp, collection, addDoc } from "firebase/firestore";
 import LottieView from "lottie-react-native";
 
 const ViewCart = ({ navigation }) => {
@@ -21,21 +21,22 @@ const ViewCart = ({ navigation }) => {
     currency: "USD",
   });
 
-  const addOrderToFirebase = () => {
+  const addOrderToFirebase = async () => {
     setLoading(true);
-    db.collection("orders")
-      .add({
+    try {
+      await addDoc(collection(db, "orders"), {
         items: items,
         restaurantName: restName,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        setTimeout(() => {
-          setLoading(false);
-          navigation.navigate("OrderCompletedScreen");
-        }, 2500);
-      })
-      .catch((error) => console.log(error));
+        createdAt: serverTimestamp(),
+      });
+
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate("OrderCompletedScreen");
+      }, 2500);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const checkoutModalContent = () => {

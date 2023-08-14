@@ -14,6 +14,13 @@ import LottieView from "lottie-react-native";
 import db from "../firebase";
 import MenuItem from "../components/MenuItem";
 import { useNavigation } from "@react-navigation/core";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 
 const OrderCompletedScreen = () => {
   const [lastOrder, setLastOrder] = useState({
@@ -40,13 +47,16 @@ const OrderCompletedScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = db
-      .collection("orders")
-      .orderBy("createdAt", "desc")
-      .limit(1)
-      .onSnapshot((snapshot) => {
-        snapshot.docs.map((doc) => setLastOrder(doc.data()));
+    const q = query(
+      collection(db, "orders"),
+      orderBy("createdAt", "desc"),
+      limit(1)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        setLastOrder(doc.data());
       });
+    });
 
     return () => unsubscribe();
   }, []);

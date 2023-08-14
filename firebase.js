@@ -1,4 +1,5 @@
-import firebase from "firebase";
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBS2Nx-OKStzwqpZ3Rq3VDDCfy34fqiFhQ",
@@ -10,11 +11,11 @@ const firebaseConfig = {
   measurementId: "G-6MXERQ6SNJ",
 };
 
-// Checking if it is already initialized
-const app = !firebase.apps.length
-  ? firebase.initializeApp(firebaseConfig)
-  : firebase.app();
+// Initialize Firebase
+// verify that firebase is instantiated only once in the app
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-const db = app.firestore();
+// Initialize cloud firestore and get a reference to the service
+const db = getFirestore(app);
 
 export default db;
